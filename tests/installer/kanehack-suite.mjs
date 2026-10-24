@@ -111,6 +111,11 @@ try {
   const api0 = r.json?.checks?.find((c) => c.id === "api");
   check("doctor --json (unpaired): parseable, api reachable-not-paired", [0, 1].includes(r.code) && api0?.status === "warn" && /not paired/.test(api0?.detail ?? ""), r.show);
   check("doctor --json: fake kane-cli found and authed", r.json?.checks?.find((c) => c.id === "kane_cli")?.status === "pass" && r.json?.checks?.find((c) => c.id === "kane_auth")?.status === "pass", r.show);
+  {
+    const old = kh(["doctor", "--json"], { FAKE_KANE_VERSION: "kane-cli 0.9.0" });
+    const kc = old.json?.checks?.find((c) => c.id === "kane_cli");
+    check("doctor: Kane CLI older than the release candidate → warn with npm install -g @testmuai/kane-cli@rc", kc?.status === "warn" && kc?.fix === "npm install -g @testmuai/kane-cli@rc", old.show);
+  }
   check("doctor: no ANSI colors when not a TTY", !/\x1b\[/.test(r.out + r.err), r.show);
   r = kh(["doctor"]);
   check("doctor (text): plain lines on stderr", r.err.includes("node") && !/\x1b\[/.test(r.err), r.show);

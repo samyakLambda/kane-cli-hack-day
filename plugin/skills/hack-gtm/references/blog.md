@@ -60,7 +60,7 @@ Structure:
 4. What it changed about how you built: concrete behaviour, like "we stopped eyeballing the staging site and ran the flow after every merge".
 5. Limits and honest notes: what Kane CLI did not catch, where it was slow, what you would set up differently.
 
-Link Kane CLI once to https://github.com/LambdaTest/kane-cli and once to the docs. Mention the install command (`npm install -g @testmuai/kane-cli`) so readers can repeat the loop.
+Link Kane CLI once to https://github.com/LambdaTest/kane-cli and once to the docs. Mention the install command the team used (`npm install -g @testmuai/kane-cli@rc`, the release candidate the hackathon ran on) so readers can repeat the loop.
 
 ## Section 5: What's next, try it, credits
 

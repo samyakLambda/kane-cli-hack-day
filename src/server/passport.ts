@@ -641,7 +641,7 @@ export const READINESS_CHECKS: ReadinessCheckDef[] = [
   { id: "git", label: "Git", command: "git --version", tier: "core", fix: "macOS: `xcode-select --install`. Windows: install Git for Windows. Linux: your package manager." },
   { id: "chrome", label: "Google Chrome", tier: "core", fix: "Install Chrome. Kane drives a real Chrome window on your machine." },
   { id: "codex", label: "Codex", command: "codex --version", tier: "agent", fix: "Install the Codex CLI with `npm i -g @openai/codex`, or use Codex in the ChatGPT desktop app." },
-  { id: "kane_version", label: "Kane CLI installed", command: "kane-cli --version", tier: "kane", fix: "`npm install -g @testmuai/kane-cli`, then open a new terminal and re-run `kane-cli --version`." },
+  { id: "kane_version", label: "Kane CLI installed", command: "kane-cli --version", tier: "kane", fix: "`npm install -g @testmuai/kane-cli@rc` (the hackathon runs on the release candidate, 0.10.0-rc or newer), then open a new terminal and re-run `kane-cli --version`." },
   { id: "kane_whoami", label: "Kane CLI signed in", command: "kane-cli whoami", tier: "kane", fix: "Run `kane-cli login --oauth` and finish the sign-in in the browser, then re-run `kane-cli whoami`." },
   { id: "kane_skill", label: "Official Kane skill installed", command: "kane-cli install codex", tier: "agent", fix: "Run `kane-cli install codex` so Codex knows how to call Kane." },
   { id: "plugin_discovery", label: "Event skills found in a fresh session", tier: "agent", fix: "Open a new agent session and ask it to run hack-doctor. If it can’t find it, copy the event skills into .agents/skills in your repo." },

@@ -29,8 +29,8 @@ $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"   # Windows PowerShell 5.1 downloads crawl with the progress bar on
 try { [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 } catch {}
 $KanehackVersion = "0.1.9"
-$KanehackSha256 = "90cfbb9581bf2284882272804608768f955d5afa48debd7c0d50396b492a8270"
-$SkillsSha256 = "5f38678bd2dd769f210cfce3b35c28cabb22be3f7ec4fee24680eefdb12b5e74"
+$KanehackSha256 = "12943d21362a8b159dba2a5d3c72bbffff0644fe1204940cf97d95eb44340a3a"
+$SkillsSha256 = "a0579e787fd20f7b68d8f1d2669309a26c0b935fbaf84b2a528f4900dfe86fae"
 function EnvOn($name) { $v = [Environment]::GetEnvironmentVariable($name); [bool]($v -and ($v -notmatch '^(0|false|no)$')) }
 $Yes = $Yes -or (EnvOn "KANEHACK_YES")
 $NoPath = $NoPath -or (EnvOn "KANEHACK_NO_PATH")
@@ -98,11 +98,13 @@ elseif (Ask "OpenAI Codex CLI is not installed. Install it now (npm i -g @openai
 else { Warn "codex" "not installed" "npm i -g @openai/codex   (then: codex login)" }
 
 if (Have kane-cli) {
-  Pass "kane_cli" ((kane-cli --version) | Select-Object -First 1)
+  $kv = [string]((kane-cli --version) | Select-Object -First 1)
+  # The hackathon runs on the release candidate (0.10.0-rc or newer): 0.0-0.9 gets the upgrade command.
+  if ($kv -match '(?<![\d.])0\.\d\.') { Warn "kane_cli" "$kv`: older than the hackathon's release candidate" "npm install -g @testmuai/kane-cli@rc" } else { Pass "kane_cli" $kv }
   kane-cli whoami *> $null
   if ($LASTEXITCODE -eq 0) { Pass "kane_auth" } else { Fail "kane_auth" "signed out" "kane-cli login" }
 } else {
-  Fail "kane_cli" "missing" "npm i -g @testmuai/kane-cli"
+  Fail "kane_cli" "missing" "npm install -g @testmuai/kane-cli@rc"
   Warn "kane_auth" "skipped" "Install Kane CLI first"
 }
 

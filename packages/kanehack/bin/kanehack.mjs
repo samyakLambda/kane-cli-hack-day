@@ -44,6 +44,8 @@ const DIR = join(homedir(), ".kanehack");
 const CONFIG = join(DIR, "config.json");
 const PENDING = join(DIR, "pending-pair.json");
 const CREDS = join(DIR, "credentials.json");
+// The hackathon runs on the Kane CLI release candidate.
+const KANE_INSTALL = "npm install -g @testmuai/kane-cli@rc";
 const MAX_NDJSON = 1_900_000;
 const MAX_DIRECT_EVIDENCE = 4 * 1024 * 1024;
 const WIN = platform() === "win32";
@@ -836,7 +838,10 @@ async function doctor(a) {
   add("git", git.code === 0 ? "pass" : "fail", git.out.replace("git version ", "").slice(0, 30) || null, null, "Install Git from https://git-scm.com");
   add("chrome", chromePresent() ? "pass" : "fail", null, null, "Install Google Chrome; Kane drives a real browser");
   const kane = probe("kane-cli", ["--version"]);
-  add("kane_cli", kane.code === 0 ? "pass" : "fail", kane.out.split("\n")[0]?.slice(0, 40) || null, null, "npm i -g @testmuai/kane-cli");
+  const kaneVersion = kane.out.split("\n")[0]?.slice(0, 40) || null;
+  // The hackathon runs on the release candidate (0.10.0-rc or newer); older ones get the upgrade command.
+  const kaneOld = kane.code === 0 && /(?<![\d.])0\.\d\./.test(kaneVersion ?? "");
+  add("kane_cli", kane.code !== 0 ? "fail" : kaneOld ? "warn" : "pass", kaneVersion, kaneOld ? "older than the hackathon's release candidate" : null, KANE_INSTALL);
   if (kane.code === 0) {
     const who = probe("kane-cli", ["whoami"], { timeout: 20_000 });
     add("kane_auth", who.code === 0 ? "pass" : "fail", null, null, "kane-cli login");

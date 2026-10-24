@@ -4,6 +4,7 @@
 
 - `help_diagnose` with a `category` and a one-line `symptom` gives first-line fixes from the event docs.
 - For Kane CLI errors, follow the official Kane CLI skill's troubleshooting.
+- Kane CLI missing, too old, or a command or flag "not recognized": `kane-cli --version`. The hackathon runs on the release candidate, 0.10.0-rc or newer; install or upgrade with `npm install -g @testmuai/kane-cli@rc` (install problems: `references/setup.md`, step 1). Only file an issue once it's on the release candidate.
 - Setup problems → `references/setup.md`.
 
 ## 2. Kane CLI problem still there → a GitHub issue on LambdaTest/kane-cli

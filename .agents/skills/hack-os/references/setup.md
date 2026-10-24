@@ -6,7 +6,10 @@ Goal: this machine can reach the event server as this person, and Codex has the 
 
 Run `kanehack doctor --json` and read its checks. Fix only what failed, one at a time, using the fix each check names. The ones that matter most:
 
-- `kane_cli` missing → `npm i -g @testmuai/kane-cli`. Then `kane-cli whoami`; if not signed in, the person runs `kane-cli login --oauth` and approves in their browser.
+- `kane_cli` missing, or a warning that it's older than the release candidate → `npm install -g @testmuai/kane-cli@rc`. The hackathon runs on the release candidate (0.10.0-rc or newer); the plain `@testmuai/kane-cli` is an older release without everything the event uses.
+  - `EACCES` or another permission error: never `sudo`. `npm config set prefix ~/.npm-global`, add `~/.npm-global/bin` to `PATH` (in `~/.zshrc` or `~/.bashrc`), open a new terminal, run the install again.
+  - Then `kane-cli --version` should show 0.10.0-rc or newer. Still the old one → another copy comes first on `PATH`: `which -a kane-cli` (Windows: `where kane-cli`) shows it; remove that one or reorder `PATH`.
+  - Then `kane-cli whoami`; if not signed in, the person runs `kane-cli login --oauth` and approves in their browser.
 - `kane_skill` missing → `npx @testmuai/kane-cli-skill`.
 - `codex` → `codex login status`; if not signed in, the person runs `codex login`.
 - `testmu_key` failed → step 2 decides whether it matters.

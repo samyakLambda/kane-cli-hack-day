@@ -9,7 +9,7 @@ import { randomUUID } from "node:crypto";
 const argv = process.argv.slice(2);
 const code = Number(process.env.FAKE_KANE_EXIT ?? 0);
 if (argv[0] === "--version") {
-  console.log("kane-cli 0.0.0-fake");
+  console.log(process.env.FAKE_KANE_VERSION ?? "kane-cli 0.10.0-rc.1");
   process.exit(0);
 }
 if (argv[0] === "whoami") {
